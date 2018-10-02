@@ -1,6 +1,38 @@
 const form = document.getElementById('registrar'); //get hold of <form>'s ID 'registrar' and store it in a variable
 const input = form.querySelector('input'); //use the new 'form' variable to get hold of <input> and store it in a variable
+const mainDiv = document.querySelector('.main'); //use <div class="main"> in HTML to get hold of the parent element to the <div> we create below
 const ul = document.getElementById('invitedList');// get hold of <ul>'s ID 'invitedList' and store it in a variable
+
+//create a <div> to add a <label> and a <checkbox> to hide guests not confirmed
+const div = document.createElement('div'); //create <div> and store it in a variable
+const filterLabel = document.createElement('label'); //create <label> and store it in a variable
+const filterCheckBox = document.createElement('input'); //create <input> and store it in a variable
+
+filterLabel.textContent = "Hide those who haven't responded"; //give label text content
+filterCheckBox.type = 'checkbox'; //give <input> type 'checkbox
+div.appendChild(filterLabel); //append label to div
+div.appendChild(filterCheckBox); //append checkbox to div
+mainDiv.insertBefore(div, ul); //insert our new 'div' to its parent 'mainDiv'
+filterCheckBox.addEventListener('change', (e) => { //add event handler to the checkbox
+  const isChecked = e.target.checked; //if checkbox is ticked, store it in a variable
+  const lis = ul.children; //store all list items that are children of <ul> element in a variable
+  if (isChecked) { //if checkbox is checked (isChecked === true)
+    for (var i = 0; i < lis.length; i += 1) { //loop through all list items to check if any have been checked
+      var li = lis[i]; //create a variable to represent the individual 'li's to make it more readable
+      if (li.className === 'responded') { //if 'li' has got a class name' responded'
+        li.style.display = ''; // keep its previous styles
+      } else { //otherwise
+        li.style.display = 'none'; // hide the element
+      }
+    }
+  } else {
+    for (var i = 0; i < lis.length; i += 1) { //loop through all list items to check if any have been checked
+      var li = lis[i]; //create a variable to represent the individual 'li's to make it more readable
+      li.style.display = ''; //if checkbox is not checked, keep the previous styles
+    }
+  }
+});
+
 
 function createLI(text) { //create a function which creates new <li> items
   const li = document.createElement('li'); //create <li> element and store it in a variable
